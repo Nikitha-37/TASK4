@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+// Function to compress using RLE
+void compressRLE(char *input) {
+    int len = strlen(input);
+    printf("Compressed: ");
+    for (int i = 0; i < len; i++) {
+        int count = 1;
+        while (i < len - 1 && input[i] == input[i + 1]) {
+            count++;
+            i++;
+        }
+        printf("%c%d", input[i], count);
+    }
+    printf("\n");
+}
+
+// Function to decompress RLE string
+void decompressRLE(char *input) {
+    printf("Decompressed: ");
+    for (int i = 0; input[i] != '\0'; i++) {
+        char ch = input[i];
+        i++;
+        int count = 0;
+        while (isdigit(input[i])) {
+            count = count * 10 + (input[i] - '0');
+            i++;
+        }
+        i--;  // adjust index
+        for (int j = 0; j < count; j++) {
+            printf("%c", ch);
+        }
+    }
+    printf("\n");
+}
+
+int main() {
+    char text[100];
+    char compressed[100];
+
+    printf("Enter text to compress: ");
+    scanf("%s", text);
+
+    // Compression
+    compressRLE(text);
+
+    // Example input for decompression
+    printf("\nEnter RLE string to decompress (like a3b2c1): ");
+    scanf("%s", compressed);
+    decompressRLE(compressed);
+
+    return 0;
+}
